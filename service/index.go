@@ -1,0 +1,19 @@
+package service
+
+import (
+	"github.com/gin-gonic/gin"
+)
+
+func Index(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"code": 200,
+		"message": "index",
+	})
+}
+
+func Ping(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"code": 200,
+		"message": "pong",
+	})
+}

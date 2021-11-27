@@ -1,11 +1,9 @@
 package main
 
 import (
-	"rango/route"
-	"rango/utils"
+	"rango/app/api"
 )
 
 func main() {
-	utils.LogInit()
-	route.Run()
+	api.Run()
 }

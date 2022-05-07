@@ -12,3 +12,8 @@ gin框架服务
 ├─route     # 路由
 ├─service   # 服务
 └─utils     # 工具类
+
+#### 使用类库
+1. gin          服务框架
+2. logrus       日志库
+3. viper        配置文件库

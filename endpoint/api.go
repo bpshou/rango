@@ -1,11 +1,13 @@
 package endpoint
 
 import (
-	"rango/utils/logger"
-	"rango/router"
+    "rango/app/config"
+    "rango/utils/logger"
+    "rango/router"
 )
 
 func Run() {
-	logger.Init()
-	router.Run()
+    config.Init()
+    logger.Init()
+    router.Run()
 }

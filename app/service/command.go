@@ -2,15 +2,16 @@ package service
 
 import (
 	"io/ioutil"
-	"os/exec"
 	"net/http"
+	"os/exec"
+
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 )
 
 type Douyin struct {
 	Downloaddir string `form:"downloaddir" json:"downloaddir" xml:"downloaddir"`
-	Resource string `form:"resource" json:"resource" xml:"resource" binding:"required"`
+	Resource    string `form:"resource" json:"resource" xml:"resource" binding:"required"`
 }
 
 func Command(c *gin.Context) {
@@ -18,7 +19,7 @@ func Command(c *gin.Context) {
 	var json Douyin
 	if err := c.ShouldBindJSON(&json); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"code": 200,
+			"code":    200,
 			"message": err.Error(),
 		})
 		return
@@ -29,7 +30,7 @@ func Command(c *gin.Context) {
 
 	if json.Resource == "" {
 		c.JSON(http.StatusUnauthorized, gin.H{
-			"code": 200,
+			"code":    200,
 			"message": "resource error",
 		})
 		return
@@ -48,16 +49,30 @@ func Command(c *gin.Context) {
 		"Resource": Resource,
 	}).Info("Douyin data")
 
-	execCommand(Download, Resource)
+	var params = map[int]string{}
+	params[1] = Download
+	params[2] = Resource
+
+	execCommand(params)
 
 	c.JSON(http.StatusOK, gin.H{
-		"code": 200,
+		"code":    200,
 		"message": "Douyin download",
 	})
 }
 
-func execCommand(Download string, Resource string) {
-	cmd := exec.Command("annie", "-o", Download, Resource)
+// 执行命令
+func execCommand(params map[int]string) {
+	var name string
+	var list []string
+	for key, val := range params {
+		if key == 0 {
+			name = val
+			continue
+		}
+		list = append(list, val)
+	}
+	cmd := exec.Command(name, list...)
 
 	stdout, err := cmd.StdoutPipe()
 	if err != nil { // 获取输出对象，可以从该对象中读取输出结果

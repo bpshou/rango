@@ -1,14 +1,19 @@
-package service
+package api
 
 import (
 	"encoding/base64"
 	"fmt"
+	"rango/app/controller"
 	"rango/tools/cipher"
 
 	"github.com/gin-gonic/gin"
 )
 
-func Aes(c *gin.Context) {
+type Aes struct {
+	controller.Base
+}
+
+func (this Aes) Index(c *gin.Context) {
 	text := "123" // 你要加密的数据
 	// AesKey := []byte("#HvL%$o0oNNoOZnk#o2qbqCeQB1iXeIR") // 对称秘钥长度必须是16的倍数
 	AesKey := []byte("aaaaaaaaaaaaaaaa") // 对称秘钥长度必须是16的倍数

@@ -1,7 +1,7 @@
 package router
 
 import (
-	"rango/app/service"
+	"rango/app/controller/use"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,10 +9,8 @@ import (
 func UseRouter(engine *gin.Engine) {
 	router := engine.Group("/use")
 	{
-		router.GET("/mongo", service.Mongo)
-		router.GET("/aes", service.Aes)
-		router.GET("/glog", service.UseGlog)
-		router.GET("/logrus", service.UseLogrus)
-		router.POST("/cmd", service.Command)
+		router.GET("/mongo", use.Mongo{}.Mongo)
+		router.GET("/glog", use.Glog{}.Glog)
+		router.GET("/logrus", use.Logrus{}.Logrus)
 	}
 }

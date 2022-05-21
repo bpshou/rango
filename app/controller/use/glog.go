@@ -1,16 +1,23 @@
-package service
+package use
 
 import (
+	"rango/app/controller"
+
 	"github.com/gin-gonic/gin"
 
 	"flag"
+
 	"github.com/golang/glog"
 )
+
+type Glog struct {
+	controller.Base
+}
 
 // 使用 glog 时，需要在命令行启动时添加 `-log_dir=log -alsologtostderr` 参数
 // 日志将会同时打印在 log/ 目录和标准错误输出中 -alsologtostderr
 // 在 Kuberntes 中，glog 是默认日志库
-func UseGlog(c *gin.Context) {
+func (this Glog) Glog(c *gin.Context) {
 	flag.Parse()
 	defer glog.Flush()
 
@@ -28,7 +35,7 @@ func UseGlog(c *gin.Context) {
 	glog.V(0).Infoln("info with v 0")
 
 	c.JSON(200, gin.H{
-		"code": 200,
+		"code":    200,
 		"message": "Google glog put content success !",
 	})
 }

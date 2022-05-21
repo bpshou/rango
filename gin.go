@@ -1,9 +1,9 @@
 package main
 
 import (
-	"rango/endpoint"
+	"rango/router"
 )
 
 func main() {
-	endpoint.Run()
+	router.Run()
 }

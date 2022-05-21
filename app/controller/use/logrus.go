@@ -1,13 +1,20 @@
-package service
+package use
 
 import (
+	"rango/app/controller"
+
 	"github.com/gin-gonic/gin"
 
 	"os"
+
 	log "github.com/sirupsen/logrus"
 )
 
-func UseLogrus(c *gin.Context) {
+type Logrus struct {
+	controller.Base
+}
+
+func (this Logrus) Logrus(c *gin.Context) {
 	// 设置日志格式为json格式
 	log.SetFormatter(&log.JSONFormatter{})
 
@@ -19,8 +26,8 @@ func UseLogrus(c *gin.Context) {
 	log.SetLevel(log.DebugLevel)
 
 	log.WithFields(log.Fields{
-		"name":  "zhangsan",
-		"age":   18,
+		"name": "zhangsan",
+		"age":  18,
 	}).Debug("A debug message")
 
 	log.WithFields(log.Fields{
@@ -35,7 +42,7 @@ func UseLogrus(c *gin.Context) {
 
 	log.WithFields(log.Fields{
 		"database": "mysql",
-		"port":    3306,
+		"port":     3306,
 	}).Error("Mysql connect error!")
 
 	// 使用 Fatal 会中断程序
@@ -45,7 +52,7 @@ func UseLogrus(c *gin.Context) {
 	// }).Fatal("The ice breaks!")
 
 	c.JSON(200, gin.H{
-		"code": 200,
+		"code":    200,
 		"message": "Use logrus success !",
 	})
 }

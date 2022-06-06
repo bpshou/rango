@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"rango/tools/logger"
-	"rango/tools/redis"
 	"rango/tools/viper"
 	"rango/tools/xorm"
 
@@ -13,7 +12,6 @@ import (
 func Init(c *gin.Context) {
 	viper.ImportConfig()
 	logger.Init()
-	redis.Instance()
 	xorm.EngineGroup()
 	c.Next()
 }

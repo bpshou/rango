@@ -5,7 +5,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-func ImportConfig() {
+func init() {
 	viper.SetConfigName("db")
 	viper.SetConfigName("redis")
 	// viper.SetConfigType("json")
@@ -17,12 +17,12 @@ func ImportConfig() {
 	err := viper.ReadInConfig()
 	if err != nil {
 		log.WithFields(log.Fields{
-			"omg": true,
-			"err": err,
-		}).Fatal("read config failed!")
+			"method": "viper.ReadInConfig",
+			"err":    err,
+		}).Fatal("Read config failed!")
 	}
+}
 
-	log.WithFields(log.Fields{
-		"status": true,
-	}).Debug("Config init Success!")
+func Init() {
+	log.Debug("Config viper init Success !")
 }

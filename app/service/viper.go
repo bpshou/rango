@@ -7,6 +7,9 @@ import (
 )
 
 func ViperConfig(c *gin.Context)  {
-    host := viper.Get("host")
+    host := ""
+    if viper.IsSet("host") {
+        host = viper.Get("host").(string)
+    }
     fmt.Println("redis host after: ", host)
 }

@@ -19,7 +19,7 @@ func init() {
 		log.WithFields(log.Fields{
 			"method": "viper.ReadInConfig",
 			"err":    err,
-		}).Fatal("Read config failed!")
+		}).Warn("Read config failed!")
 	}
 }
 

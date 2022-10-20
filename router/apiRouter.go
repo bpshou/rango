@@ -10,6 +10,7 @@ func ApiRouter(engine *gin.Engine) {
 	router := engine.Group("/api")
 	{
 		router.GET("/", api.Index{}.Index)
+		router.GET("/totp", api.Totp{}.Secret)
 		router.GET("/ping", api.Index{}.Ping)
 		router.GET("/mysql", api.Index{}.Mysql)
 		router.GET("/viper/config", api.Viper{}.ViperConfig)

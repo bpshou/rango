@@ -11,6 +11,7 @@ func ApiRouter(engine *gin.Engine) {
 	{
 		router.GET("/", api.Index{}.Index)
 		router.GET("/totp", api.Totp{}.Secret)
+		router.GET("/params/:id", api.Index{}.Params)
 		router.GET("/ping", api.Index{}.Ping)
 		router.GET("/mysql", api.Index{}.Mysql)
 		router.GET("/viper/config", api.Viper{}.ViperConfig)

@@ -21,8 +21,6 @@ func init() {
 			"err":    err,
 		}).Warn("Read config failed!")
 	}
-}
 
-func Init() {
-	log.Debug("Config viper init Success !")
+	log.Debug("init viper Success !")
 }

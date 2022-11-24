@@ -13,9 +13,6 @@ func init() {
 	logrus.SetOutput(os.Stdout)
 	// 设置日志级别为debug
 	logrus.SetLevel(logrus.DebugLevel)
-}
-
-func Init() {
 	// 成功
-	logrus.Debug("Logrus init Success !")
+	logrus.Debug("init logrus Success !")
 }

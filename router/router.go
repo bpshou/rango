@@ -2,16 +2,12 @@ package router
 
 import (
 	"rango/middleware"
-	"rango/tools/logger"
-	"rango/tools/viper"
+	// 隐式导包实现初始化
+	_ "rango/tools/logger"
+	_ "rango/tools/viper"
 
 	"github.com/gin-gonic/gin"
 )
-
-func init() {
-	viper.Init()
-	logger.Init()
-}
 
 func Run() {
 	engine := gin.Default()

@@ -1,7 +1,9 @@
 package router
 
 import (
+	"rango/app/task"
 	"rango/middleware"
+
 	// 隐式导包实现初始化
 	_ "rango/tools/logger"
 	_ "rango/tools/viper"
@@ -10,6 +12,9 @@ import (
 )
 
 func Run() {
+	// 启动任务
+	task.Start()
+
 	engine := gin.Default()
 	// 全局中间件注册
 	engine.Use(middleware.CrossSetHeader, middleware.Init)

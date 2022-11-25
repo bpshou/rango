@@ -11,7 +11,7 @@ type Totp struct {
 	controller.Base
 }
 
-func (this Totp) Secret(c *gin.Context) {
+func (the Totp) Secret(c *gin.Context) {
 	// aes
 	google_secret := "/N0IMuSTHTPWoy8H096B8ipENjP0oASLBmnBFapJmGo="
 	// aes

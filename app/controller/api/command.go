@@ -12,7 +12,7 @@ type Command struct {
 }
 
 // 控制器
-func (this Command) Index(c *gin.Context) {
+func (the Command) Index(c *gin.Context) {
 	// 服务
 	service.Command(c)
 }

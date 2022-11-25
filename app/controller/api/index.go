@@ -16,21 +16,21 @@ type Params struct {
 	Name string `form:"name" json:"name" xml:"name"`
 }
 
-func (this Index) Index(c *gin.Context) {
+func (the Index) Index(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"code":    200,
 		"message": "index",
 	})
 }
 
-func (this Index) Ping(c *gin.Context) {
+func (the Index) Ping(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"code":    200,
 		"message": "pong",
 	})
 }
 
-func (this Index) Params(c *gin.Context) {
+func (the Index) Params(c *gin.Context) {
 	// 获取json参数
 	var params Params
 	if err := c.ShouldBindJSON(&params); err != nil {
@@ -55,7 +55,7 @@ func (this Index) Params(c *gin.Context) {
 	})
 }
 
-func (this Index) Mysql(c *gin.Context) {
+func (the Index) Mysql(c *gin.Context) {
 
 	insert := service.Insert()
 	Select := service.Select()

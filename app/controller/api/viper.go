@@ -12,7 +12,7 @@ type Viper struct {
 }
 
 // 控制器
-func (this Viper) ViperConfig(c *gin.Context) {
+func (the Viper) ViperConfig(c *gin.Context) {
 	// 服务
 	service.ViperConfig(c)
 }

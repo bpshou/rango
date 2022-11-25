@@ -33,7 +33,7 @@ type LogRecord struct {
 	TimePoint TimePoint `bson:"timePoint"` // 执行时间点
 }
 
-func (this Mongo) Mongo(c *gin.Context) {
+func (the Mongo) Mongo(c *gin.Context) {
 	var (
 		client *mongo.Client
 		result *mongo.InsertOneResult

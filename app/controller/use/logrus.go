@@ -14,7 +14,7 @@ type Logrus struct {
 	controller.Base
 }
 
-func (this Logrus) Logrus(c *gin.Context) {
+func (the Logrus) Logrus(c *gin.Context) {
 	// 设置日志格式为json格式
 	log.SetFormatter(&log.JSONFormatter{})
 

@@ -17,7 +17,7 @@ type User struct {
 
 // 实例化
 func UserTable() UserModel {
-	BaseModel := models.NewDatabase("test")
+	BaseModel := models.NewDatabase("golang")
 	return UserModel{
 		&BaseModel,
 	}

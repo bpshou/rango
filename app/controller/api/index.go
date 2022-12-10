@@ -17,10 +17,7 @@ type Params struct {
 }
 
 func (the Index) Index(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "index",
-	})
+	the.Success(c, 200, "index")
 }
 
 func (the Index) Ping(c *gin.Context) {

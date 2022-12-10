@@ -2,7 +2,6 @@ package service
 
 import (
 	"fmt"
-	"rango/models"
 	"rango/models/golang"
 )
 
@@ -13,7 +12,7 @@ func Insert() int64 {
 	User.Age = 18
 	User.CreateTime = "2022-05-20 12:12:12"
 
-	affected, err := models.Db.Insert(User)
+	affected, err := golang.UserTable().Insert(User)
 	if err != nil {
 		fmt.Print(err)
 		return 0
@@ -24,7 +23,7 @@ func Insert() int64 {
 func Select() bool {
 	var User golang.User
 
-	result, err := models.Db.Get(&User)
+	result, err := golang.UserTable().Select(&User)
 
 	fmt.Print(User)
 
@@ -40,7 +39,7 @@ func Update() int64 {
 
 	User.Name = "lisi"
 
-	affected, err := models.Db.Where("id = 2").Update(User)
+	affected, err := golang.UserTable().Db.Where("id = 2").Update(User)
 	if err != nil {
 		fmt.Print(err)
 		return 0
@@ -50,10 +49,19 @@ func Update() int64 {
 
 func Delete() int64 {
 	User := new(golang.User)
-	affected, err := models.Db.Where("id = 1").Delete(User)
+	affected, err := golang.UserTable().Db.Where("id = 1").Delete(User)
 	if err != nil {
 		fmt.Print(err)
 		return 0
 	}
+	return affected
+}
+
+func Query() interface{} {
+	sql := "select * from user where name = 'zhangsan'"
+	affected, _ := golang.UserTable().Query(sql)
+	// if err != nil {
+	// 	fmt.Print(err)
+	// }
 	return affected
 }

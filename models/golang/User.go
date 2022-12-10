@@ -5,7 +5,7 @@ import (
 )
 
 type UserModel struct {
-	models.BaseModel
+	*models.BaseModel
 }
 
 type User struct {
@@ -15,6 +15,14 @@ type User struct {
 	CreateTime string
 }
 
-func (this User) TableName() string {
+// 实例化
+func UserTable() UserModel {
+	BaseModel := models.NewDatabase("test")
+	return UserModel{
+		&BaseModel,
+	}
+}
+
+func (the User) TableName() string {
 	return "user"
 }

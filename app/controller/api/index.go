@@ -61,6 +61,7 @@ func (the Index) Mysql(c *gin.Context) {
 	Select := service.Select()
 	update := service.Update()
 	delete := service.Delete()
+	query := service.Query()
 
 	c.JSON(200, gin.H{
 		"code":    200,
@@ -69,5 +70,6 @@ func (the Index) Mysql(c *gin.Context) {
 		"Select":  Select,
 		"update":  update,
 		"delete":  delete,
+		"query":   query,
 	})
 }

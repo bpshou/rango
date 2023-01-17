@@ -17,5 +17,6 @@ func ApiRouter(engine *gin.Engine) {
 		router.GET("/viper/config", api.Viper{}.ViperConfig)
 		router.POST("/cmd", api.Command{}.Index)
 		router.GET("/aes", api.Aes{}.Index)
+		router.GET("/kafka", api.Kafka{}.Start)
 	}
 }

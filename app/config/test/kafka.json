@@ -1,0 +1,9 @@
+{
+    "kafka": {
+        "broker": "192.168.5.5:9092",
+        "topic": {
+            "task": "task",
+            "object": "object"
+        }
+    }
+}

@@ -27,6 +27,7 @@ func init() {
 
 	// 读取redis配置
 	viper.SetConfigName("redis")
+	viper.SetConfigName("kafka")
 	viper.MergeInConfig()
 
 	log.Debug("init viper Success !")

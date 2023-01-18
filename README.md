@@ -35,3 +35,9 @@ gin框架服务
 2. logrus       日志库
 3. viper        配置文件库
 3. xorm         数据库
+
+#### 单元测试
+- test是单元测试目录，官方规定所有测试文件后缀都必须以`_test.go`结尾
+- 使用`官方test工具 + assert包`作为单元测试工具
+- 单元测试文件函数名开头只能包含`Test、Benchmark、Example`，分别对应 `测试、基准、示例函数`
+- 所有函数必须引入`testing`包

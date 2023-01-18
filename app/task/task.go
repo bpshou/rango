@@ -4,5 +4,5 @@ func Start() {
 	go ApiLogTask()
 	go ApiLogTask()
 	go ApiLogTask()
-	go KafkaTask()
+	// go KafkaTask()
 }

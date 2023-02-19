@@ -18,5 +18,6 @@ func ApiRouter(engine *gin.Engine) {
 		router.POST("/cmd", api.Command{}.Index)
 		router.GET("/aes", api.Aes{}.Index)
 		router.GET("/kafka", api.Kafka{}.Start)
+		router.GET("/jwt", api.Jwt{}.Index)
 	}
 }

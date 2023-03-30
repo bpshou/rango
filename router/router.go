@@ -18,7 +18,7 @@ func Run() {
 
 	engine := gin.Default()
 	// 全局中间件注册
-	engine.Use(middleware.CrossSetHeader, middleware.Init)
+	engine.Use(middleware.AddTrace, middleware.CrossSetHeader, middleware.Init)
 	// 注册路由
 	ApiRouter(engine)
 	UseRouter(engine)

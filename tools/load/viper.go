@@ -10,10 +10,10 @@ func LoadViper(path string) {
 	// 设置读取配置文件类型
 	viper.SetConfigType("json")
 	// 设置viper配置读取目录
-	viper.AddConfigPath(path + "app/config")
-	viper.AddConfigPath(path + "app/config/dev")
-	viper.AddConfigPath(path + "app/config/test")
-	viper.AddConfigPath(path + "app/config/prod")
+	viper.AddConfigPath(path + "config")
+	viper.AddConfigPath(path + "config/dev")
+	viper.AddConfigPath(path + "config/test")
+	viper.AddConfigPath(path + "config/prod")
 
 	// 读取数据库配置
 	viper.SetConfigName("db")

@@ -2,11 +2,12 @@ package router
 
 import (
 	"rango/app/controller/api"
+	"rango/app/controller/use"
 
 	"github.com/gin-gonic/gin"
 )
 
-func ApiRouter(engine *gin.Engine) {
+func RegisterRouter(engine *gin.Engine) {
 	router := engine.Group("/api")
 	{
 		router.GET("/", api.Index{}.Index)
@@ -19,5 +20,11 @@ func ApiRouter(engine *gin.Engine) {
 		router.GET("/aes", api.Aes{}.Index)
 		router.GET("/kafka", api.Kafka{}.Start)
 		router.GET("/jwt", api.Jwt{}.Index)
+	}
+	routerUse := engine.Group("/use")
+	{
+		routerUse.GET("/mongo", use.Mongo{}.Mongo)
+		routerUse.GET("/glog", use.Glog{}.Glog)
+		routerUse.GET("/logrus", use.Logrus{}.Logrus)
 	}
 }

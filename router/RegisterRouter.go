@@ -20,6 +20,8 @@ func RegisterRouter(engine *gin.Engine) {
 		router.GET("/aes", api.Aes{}.Index)
 		router.GET("/kafka", api.Kafka{}.Start)
 		router.GET("/jwt", api.Jwt{}.Index)
+		router.GET("/secret/add", api.Secret{}.Create)
+		router.GET("/secret/select", api.Secret{}.Decrypt)
 	}
 	routerUse := engine.Group("/use")
 	{

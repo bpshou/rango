@@ -1,8 +1,0 @@
-{
-    "rango": {
-        "host": "http://127.0.0.1:2020"
-    },
-    "jwt": {
-        "token": "authorization_token_key"
-    }
-}

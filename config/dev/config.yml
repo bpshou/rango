@@ -12,10 +12,9 @@ mysql:
     pass: secret20
     database: golang
     charset: utf8mb4
-  model_gorm:
-    dsn_format: "%s:%s@(%s:%s)/%s?charset=%s&parseTime=True&loc=Local"
-  model_xorm:
-    dsn_format: "%s:%s@tcp(%s:%s)/%s?charset=%s"
+  format:
+    gorm: "%s:%s@(%s:%s)/%s?charset=%s&parseTime=True&loc=Local"
+    xorm: "%s:%s@tcp(%s:%s)/%s?charset=%s"
 
 redis:
   host: 192.168.5.5

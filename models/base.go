@@ -1,11 +1,16 @@
 package models
 
 import (
+	"database/sql"
+	"strings"
+
+	"github.com/doug-martin/goqu/v9"
 	"xorm.io/xorm"
 )
 
 type BaseModel struct {
-	Db *xorm.EngineGroup
+	Db        *xorm.EngineGroup
+	TableName string
 }
 
 // 实例化数据库
@@ -18,28 +23,31 @@ func NewDatabase(database string) BaseModel {
 	}
 }
 
-func (the *BaseModel) Insert(data interface{}) (int64, error) {
-	return the.Db.Insert(data)
+func (m *BaseModel) Insert(data ...interface{}) (sql.Result, error) {
+	sql, _, _ := goqu.Insert(m.TableName).Rows(data...).ToSQL()
+	sql = strings.ReplaceAll(sql, "\"", "")
+	m.Db.ShowSQL(true)
+	return m.Db.Engine.Exec(sql)
 }
 
-func (the *BaseModel) Select(data interface{}) (bool, error) {
-	return the.Db.Get(data)
+func (m *BaseModel) Select(data interface{}) (bool, error) {
+	return m.Db.Get(data)
 }
 
-func (the *BaseModel) Update() {
+func (m *BaseModel) Update() {
 }
 
-func (the *BaseModel) Delete() {
+func (m *BaseModel) Delete() {
 }
 
 // 执行SQL查询
-func (the *BaseModel) Query(sql string) (interface{}, error) {
-	the.Db.ShowSQL(true)
-	return the.Db.QueryInterface(sql)
+func (m *BaseModel) Query(sql string) ([]map[string]interface{}, error) {
+	m.Db.ShowSQL(true)
+	return m.Db.Engine.QueryInterface(sql)
 }
 
 // 执行SQL命令
-func (the *BaseModel) Exec(sqlOrArgs ...interface{}) (interface{}, error) {
-	the.Db.ShowSQL(true)
-	return the.Db.Exec(sqlOrArgs...)
+func (m *BaseModel) Exec(sqlOrArgs ...interface{}) (sql.Result, error) {
+	m.Db.ShowSQL(true)
+	return m.Db.Engine.Exec(sqlOrArgs...)
 }

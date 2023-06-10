@@ -12,13 +12,19 @@ import (
 )
 
 // 参见文档 https://gorm.io/zh_CN/docs/
-func GetDatabaseGorm(database string) *gorm.DB {
+func GetDatabaseGorm(dbName string) *gorm.DB {
 	// 读取数据库配置
-	mysqlConfig := viper.GetStringMap("mysql." + database)
-	dsnFormat := viper.GetString("model_gorm.dsn_format")
+	dbKey := "mysql." + dbName
+	dsnFormat := viper.GetString("mysql.format.gorm")
+	user := viper.GetString(dbKey + ".user")
+	pass := viper.GetString(dbKey + ".pass")
+	host := viper.GetString(dbKey + ".host")
+	port := viper.GetString(dbKey + ".port")
+	database := viper.GetString(dbKey + ".database")
+	charset := viper.GetString(dbKey + ".charset")
 
 	// 组合dsn配置
-	dsn := fmt.Sprintf(dsnFormat, mysqlConfig["user"], mysqlConfig["pass"], mysqlConfig["host"], mysqlConfig["port"], mysqlConfig["database"], mysqlConfig["charset"])
+	dsn := fmt.Sprintf(dsnFormat, user, pass, host, port, database, charset)
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
@@ -29,13 +35,19 @@ func GetDatabaseGorm(database string) *gorm.DB {
 }
 
 // 参见文档 https://xorm.io/zh/docs/chapter-01/1.engine/
-func GetDatabaseXorm(database string) *xorm.EngineGroup {
+func GetDatabaseXorm(dbName string) *xorm.EngineGroup {
 	// 读取数据库配置
-	mysqlConfig := viper.GetStringMap("mysql." + database)
-	dsnFormat := viper.GetString("model_xorm.dsn_format")
+	dbKey := "mysql." + dbName
+	dsnFormat := viper.GetString("mysql.format.xorm")
+	user := viper.GetString(dbKey + ".user")
+	pass := viper.GetString(dbKey + ".pass")
+	host := viper.GetString(dbKey + ".host")
+	port := viper.GetString(dbKey + ".port")
+	database := viper.GetString(dbKey + ".database")
+	charset := viper.GetString(dbKey + ".charset")
 
 	// 组合dsn配置
-	dsn := fmt.Sprintf(dsnFormat, mysqlConfig["user"], mysqlConfig["pass"], mysqlConfig["host"], mysqlConfig["port"], mysqlConfig["database"], mysqlConfig["charset"])
+	dsn := fmt.Sprintf(dsnFormat, user, pass, host, port, database, charset)
 
 	// 集群配置
 	conns := []string{

@@ -2,28 +2,31 @@ package service
 
 import (
 	"fmt"
-	"rango/models/golang"
+	"rango/models/origin"
+
+	"github.com/sirupsen/logrus"
 )
 
 func Insert() int64 {
-	User := new(golang.User)
-
-	User.Name = "zhangsan"
-	User.Age = 18
-	User.CreateTime = "2022-05-20 12:12:12"
-
-	affected, err := golang.UserTable().Insert(User)
+	var data []map[string]interface{}
+	data = append(data, map[string]interface{}{
+		"phone": 19488887777,
+	}, map[string]interface{}{
+		"phone": 15599990000,
+	})
+	affected, err := origin.UserTable().Insert(data)
 	if err != nil {
-		fmt.Print(err)
+		logrus.Error(err.Error())
 		return 0
 	}
-	return affected
+	id, _ := affected.LastInsertId()
+	return id
 }
 
 func Select() bool {
-	var User golang.User
+	var User origin.User
 
-	result, err := golang.UserTable().Select(&User)
+	result, err := origin.UserTable().Select(&User)
 
 	fmt.Print(User)
 
@@ -35,11 +38,9 @@ func Select() bool {
 }
 
 func Update() int64 {
-	User := new(golang.User)
+	User := new(origin.User)
 
-	User.Name = "lisi"
-
-	affected, err := golang.UserTable().Db.Where("id = 2").Update(User)
+	affected, err := origin.UserTable().Db.Where("id = 2").Update(User)
 	if err != nil {
 		fmt.Print(err)
 		return 0
@@ -48,8 +49,8 @@ func Update() int64 {
 }
 
 func Delete() int64 {
-	User := new(golang.User)
-	affected, err := golang.UserTable().Db.Where("id = 1").Delete(User)
+	User := new(origin.User)
+	affected, err := origin.UserTable().Db.Where("id = 1").Delete(User)
 	if err != nil {
 		fmt.Print(err)
 		return 0
@@ -59,7 +60,7 @@ func Delete() int64 {
 
 func Query() interface{} {
 	sql := "select * from user where name = 'zhangsan'"
-	affected, _ := golang.UserTable().Query(sql)
+	affected, _ := origin.UserTable().Query(sql)
 	// if err != nil {
 	// 	fmt.Print(err)
 	// }

@@ -13,7 +13,7 @@ func LoadViper(path string) {
 	viper.AddConfigPath(path + "config")
 	viper.AddConfigPath(path + "config/dev")
 	viper.AddConfigPath(path + "config/test")
-	viper.AddConfigPath(path + "config/prod")
+	viper.AddConfigPath(path + "config/online")
 
 	// 读取配置
 	viper.SetConfigName("config")

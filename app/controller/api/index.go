@@ -54,19 +54,17 @@ func (the Index) Params(c *gin.Context) {
 
 func (the Index) Mysql(c *gin.Context) {
 
-	insert := service.Insert()
-	// Select := service.Select()
-	// update := service.Update()
-	// delete := service.Delete()
-	// query := service.Query()
+	userInsert := service.Insert()
+	userSelect := service.Select()
+	userUpdate := service.Update()
+	userDelete := service.Delete()
 
 	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "mysql",
-		"insert":  insert,
-		// "Select":  Select,
-		// "update":  update,
-		// "delete":  delete,
-		// "query":   query,
+		"code":       200,
+		"message":    "mysql",
+		"userInsert": userInsert,
+		"userSelect": userSelect,
+		"userUpdate": userUpdate,
+		"userDelete": userDelete,
 	})
 }

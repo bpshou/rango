@@ -5,12 +5,12 @@ jwt:
   token: authorization_token_key
 
 mysql:
-  golang:
+  origin:
     host: 192.168.5.5
     port: 3306
     user: root
     pass: secret20
-    database: golang
+    database: origin
     charset: utf8mb4
   format:
     gorm: "%s:%s@(%s:%s)/%s?charset=%s&parseTime=True&loc=Local"

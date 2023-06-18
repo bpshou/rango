@@ -1,68 +1,79 @@
 package service
 
 import (
-	"fmt"
 	"rango/models/origin"
 
+	"github.com/doug-martin/goqu/v9"
 	"github.com/sirupsen/logrus"
 )
 
 func Insert() int64 {
 	var data []map[string]interface{}
+
 	data = append(data, map[string]interface{}{
-		"phone": 19488887777,
+		"phone": 13188881111,
 	}, map[string]interface{}{
-		"phone": 15599990000,
+		"phone": 13188882222,
 	})
-	affected, err := origin.UserTable().Insert(data)
+
+	logrus.Debug(data)
+
+	lastId, affected, err := origin.UserTable().Insert(data)
+
+	logrus.Debug(lastId, affected, err)
 	if err != nil {
 		logrus.Error(err.Error())
 		return 0
 	}
-	id, _ := affected.LastInsertId()
-	return id
+	return lastId
 }
 
-func Select() bool {
-	var User origin.User
+func Select() (list []map[string]interface{}) {
 
-	result, err := origin.UserTable().Select(&User)
+	data := goqu.Ex{
+		"id": goqu.Op{"eq": 1},
+	}
 
-	fmt.Print(User)
+	list, err := origin.UserTable().GetList(data, 0, 0, map[string]string{})
+
+	logrus.Debug(list)
 
 	if err != nil {
-		fmt.Print(err)
-		return false
+		logrus.Error(err.Error())
+		return
 	}
-	return result
+	return
 }
 
 func Update() int64 {
-	User := new(origin.User)
+	data := goqu.Record{
+		"phone": "13188883333",
+	}
+	where := goqu.Ex{
+		"id": goqu.Op{"eq": 2},
+	}
 
-	affected, err := origin.UserTable().Db.Where("id = 2").Update(User)
+	affected, err := origin.UserTable().Update(data, where)
+
+	logrus.Debug(affected, err)
 	if err != nil {
-		fmt.Print(err)
+		logrus.Error(err.Error())
 		return 0
 	}
 	return affected
 }
 
 func Delete() int64 {
-	User := new(origin.User)
-	affected, err := origin.UserTable().Db.Where("id = 1").Delete(User)
+	where := goqu.Ex{
+		"id": goqu.Op{"eq": 3},
+	}
+
+	affected, err := origin.UserTable().Delete(where)
+
+	logrus.Debug(affected, err)
 	if err != nil {
-		fmt.Print(err)
+		logrus.Error(err.Error())
 		return 0
 	}
-	return affected
-}
-
-func Query() interface{} {
-	sql := "select * from user where name = 'zhangsan'"
-	affected, _ := origin.UserTable().Query(sql)
-	// if err != nil {
-	// 	fmt.Print(err)
-	// }
 	return affected
 }

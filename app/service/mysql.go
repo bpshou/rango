@@ -77,3 +77,38 @@ func Delete() int64 {
 	}
 	return affected
 }
+
+func GetOne() (one map[string]interface{}) {
+
+	data := goqu.Ex{
+		"id": goqu.Op{"eq": 1},
+	}
+
+	one, err := origin.UserTable().GetOne(data, map[string]string{})
+
+	logrus.Debug(one)
+
+	if err != nil {
+		logrus.Error(err.Error())
+		return
+	}
+
+	return
+}
+
+func GetCount() (list int64) {
+
+	data := goqu.Ex{
+		"id": goqu.Op{"lt": 1},
+	}
+
+	count, err := origin.UserTable().GetCount(data)
+
+	logrus.Debug(count)
+
+	if err != nil {
+		logrus.Error(err.Error())
+		return
+	}
+	return
+}

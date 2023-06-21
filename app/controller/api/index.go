@@ -58,13 +58,17 @@ func (the Index) Mysql(c *gin.Context) {
 	userSelect := service.Select()
 	userUpdate := service.Update()
 	userDelete := service.Delete()
+	userGetOne := service.GetOne()
+	userGetCount := service.GetCount()
 
 	c.JSON(200, gin.H{
-		"code":       200,
-		"message":    "mysql",
-		"userInsert": userInsert,
-		"userSelect": userSelect,
-		"userUpdate": userUpdate,
-		"userDelete": userDelete,
+		"code":         200,
+		"message":      "mysql",
+		"userInsert":   userInsert,
+		"userSelect":   userSelect,
+		"userUpdate":   userUpdate,
+		"userDelete":   userDelete,
+		"userGetOne":   userGetOne,
+		"userGetCount": userGetCount,
 	})
 }

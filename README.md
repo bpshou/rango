@@ -9,6 +9,23 @@ gin框架服务
 - `go mod vendor` 将模块整理到vendor目录
 - `go run gin.go` 启动服务
 
+#### 使用类库
+1. gin          服务框架
+2. logrus       日志库
+3. viper        配置文件库
+4. xorm         数据库
+5. goqu         数据库SQL组装库
+6. jwt          jwt认证库
+7. otp          otp认证算法库
+8. fasthttp     http请求库
+9. xorm         数据库
+
+#### 单元测试
+- test是单元测试目录，官方规定所有测试文件后缀都必须以`_test.go`结尾
+- 使用`官方test工具 + assert包`作为单元测试工具
+- 单元测试文件函数名开头只能包含`Test、Benchmark、Example`，分别对应 `测试、基准、示例函数`
+- 所有函数必须引入`testing`包
+
 #### 目录结构
 ├─app               # 应用
 │  ├─config         # 配置
@@ -29,15 +46,3 @@ gin框架服务
 │  ├─redis
 │  └─viper
 └─vendor            # 三方类库
-
-#### 使用类库
-1. gin          服务框架
-2. logrus       日志库
-3. viper        配置文件库
-3. xorm         数据库
-
-#### 单元测试
-- test是单元测试目录，官方规定所有测试文件后缀都必须以`_test.go`结尾
-- 使用`官方test工具 + assert包`作为单元测试工具
-- 单元测试文件函数名开头只能包含`Test、Benchmark、Example`，分别对应 `测试、基准、示例函数`
-- 所有函数必须引入`testing`包

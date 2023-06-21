@@ -98,7 +98,7 @@ func (m *BaseModel) Delete(where goqu.Expression) (rowsAffected int64, err error
  * 获取列表
  *
  */
-func (m *BaseModel) GetList(where goqu.Expression, page int, size int, order map[string]string) ([]map[string]interface{}, error) {
+func (m *BaseModel) GetList(where goqu.Expression, page int, size int, order map[string]string) (data []map[string]interface{}, err error) {
 	model := goqu.Select("*").From(m.TableName).Where(where)
 	if page > 0 {
 		model.Offset(uint(page))
@@ -119,7 +119,7 @@ func (m *BaseModel) GetList(where goqu.Expression, page int, size int, order map
 	sql, _, err := model.ToSQL()
 	if err != nil {
 		logrus.Error("sql err", err.Error())
-		return nil, err
+		return
 	}
 
 	sql = strings.ReplaceAll(sql, "\"", "")

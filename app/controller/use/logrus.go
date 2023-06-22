@@ -14,6 +14,17 @@ type Logrus struct {
 	controller.Base
 }
 
+// @BasePath /api/v1
+
+// PingExample godoc
+// @Summary 日志处理
+// @Schemes
+// @Description 日志处理，详细使用方式
+// @Tags example
+// @Accept json
+// @Produce json
+// @Success 200 {map} Helloworld
+// @Router /use/logrus [get]
 func (the Logrus) Logrus(c *gin.Context) {
 	// 设置日志格式为json格式
 	log.SetFormatter(&log.JSONFormatter{})

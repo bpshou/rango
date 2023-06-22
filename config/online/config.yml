@@ -9,7 +9,7 @@ mysql:
     host: 192.168.5.5
     port: 3306
     user: root
-    pass: secret20
+    pass: 123456
     database: origin
     charset: utf8mb4
   format:

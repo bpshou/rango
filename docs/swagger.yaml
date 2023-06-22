@@ -1,0 +1,34 @@
+info:
+  contact: {}
+paths:
+  /api/:
+    get:
+      consumes:
+      - application/json
+      description: do ping
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: ping example
+      tags:
+      - example
+  /use/logrus:
+    get:
+      consumes:
+      - application/json
+      description: 日志处理，详细使用方式
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: map
+      summary: 日志处理
+      tags:
+      - example
+swagger: "2.0"

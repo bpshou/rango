@@ -16,6 +16,17 @@ type Params struct {
 	Name string `form:"name" json:"name" xml:"name"`
 }
 
+// @BasePath /api/v1
+
+// PingExample godoc
+// @Summary ping example
+// @Schemes
+// @Description do ping
+// @Tags example
+// @Accept json
+// @Produce json
+// @Success 200 {string} Helloworld
+// @Router /api/ [get]
 func (the Index) Index(c *gin.Context) {
 	the.Success(c, 200, "index")
 }

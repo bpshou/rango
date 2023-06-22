@@ -4,10 +4,15 @@ import (
 	"rango/app/controller/api"
 	"rango/app/controller/use"
 
+	docs "rango/docs"
+
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func RegisterRouter(engine *gin.Engine) {
+	docs.SwaggerInfo.BasePath = "/api"
 	router := engine.Group("/api")
 	{
 		router.GET("/", api.Index{}.Index)
@@ -22,6 +27,7 @@ func RegisterRouter(engine *gin.Engine) {
 		router.GET("/jwt", api.Jwt{}.Index)
 		router.GET("/secret/add", api.Secret{}.Create)
 		router.GET("/secret/select", api.Secret{}.Decrypt)
+		router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	}
 	routerUse := engine.Group("/use")
 	{

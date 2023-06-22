@@ -171,7 +171,7 @@ func (m *BaseModel) GetOne(where goqu.Expression, order map[string]string) (data
  *
  */
 func (m *BaseModel) GetCount(where goqu.Expression) (count int64, err error) {
-	model := goqu.Select(goqu.COUNT("1").As("count")).From(m.TableName).Where(where)
+	model := goqu.Select(goqu.COUNT("*").As("count")).From(m.TableName).Where(where)
 
 	sql, _, err := model.ToSQL()
 	if err != nil {

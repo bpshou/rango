@@ -96,10 +96,10 @@ func GetOne() (one map[string]interface{}) {
 	return
 }
 
-func GetCount() (list int64) {
+func GetCount() (count int64) {
 
 	data := goqu.Ex{
-		"id": goqu.Op{"lt": 1},
+		"id": goqu.Op{"gte": 1},
 	}
 
 	count, err := origin.UserTable().GetCount(data)

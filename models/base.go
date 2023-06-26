@@ -101,17 +101,17 @@ func (m *BaseModel) Delete(where goqu.Expression) (rowsAffected int64, err error
 func (m *BaseModel) GetList(where goqu.Expression, page int, size int, order map[string]string) (data []map[string]interface{}, err error) {
 	model := goqu.Select("*").From(m.TableName).Where(where)
 	if page > 0 {
-		model.Offset(uint(page))
+		model = model.Offset(uint(page))
 	}
 	if size > 0 {
-		model.Limit(uint(size))
+		model = model.Limit(uint(size))
 	}
 	if len(order) > 0 {
 		for field, sc := range order {
 			if sc == "desc" {
-				model.Order(goqu.C(field).Desc())
+				model = model.Order(goqu.C(field).Desc())
 			} else {
-				model.Order(goqu.C(field).Asc())
+				model = model.Order(goqu.C(field).Asc())
 			}
 		}
 	}
@@ -136,9 +136,9 @@ func (m *BaseModel) GetOne(where goqu.Expression, order map[string]string) (data
 	if len(order) > 0 {
 		for field, sc := range order {
 			if sc == "desc" {
-				model.Order(goqu.C(field).Desc())
+				model = model.Order(goqu.C(field).Desc())
 			} else {
-				model.Order(goqu.C(field).Asc())
+				model = model.Order(goqu.C(field).Asc())
 			}
 		}
 	}

@@ -26,7 +26,7 @@ func KafkaTask() {
 	for partition := range partitionList { // 遍历所有的分区
 		partConsumer, err := consumer.ConsumePartition(topic, int32(partition), sarama.OffsetNewest) // 针对每个分区创建一个分区消费者
 		if err != nil {
-			fmt.Println("Failed to start consumer for partition %d: %s\n", partition, err)
+			fmt.Printf("Failed to start consumer for partition %d: %s\n", partition, err)
 		}
 		wg.Add(1)
 		go func(sarama.PartitionConsumer) { // 为每个分区开一个go协程取值

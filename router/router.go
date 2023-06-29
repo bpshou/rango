@@ -14,7 +14,7 @@ func Run() {
 	// 加载配置
 	load.LoadViper("./")
 	// 启动任务
-	task.Start()
+	go task.Start()
 
 	engine := gin.Default()
 	// 全局中间件注册

@@ -101,7 +101,7 @@ func (m *BaseModel) Delete(where goqu.Expression) (rowsAffected int64, err error
 func (m *BaseModel) GetList(where goqu.Expression, page int, size int, order map[string]string) (data []map[string]interface{}, err error) {
 	model := goqu.Select("*").From(m.TableName).Where(where)
 	if page > 0 {
-		model = model.Offset(uint(page))
+		model = model.Offset(uint((page - 1) * size))
 	}
 	if size > 0 {
 		model = model.Limit(uint(size))

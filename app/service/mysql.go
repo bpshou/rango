@@ -31,10 +31,10 @@ func Insert() int64 {
 func Select() (list []map[string]interface{}) {
 
 	data := goqu.Ex{
-		"id": goqu.Op{"eq": 1},
+		"id": goqu.Op{"gt": 0},
 	}
 
-	list, err := origin.UserTable().GetList(data, 0, 0, map[string]string{})
+	list, err := origin.UserTable().GetList(data, 2, 2, map[string]string{})
 
 	logrus.Debug(list)
 

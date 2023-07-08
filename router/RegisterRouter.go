@@ -27,6 +27,7 @@ func RegisterRouter(engine *gin.Engine) {
 		router.GET("/jwt", api.Jwt{}.Index)
 		router.GET("/secret/add", api.Secret{}.Create)
 		router.GET("/secret/select", api.Secret{}.Decrypt)
+		router.GET("/qrcode/create", api.Qrcode{}.Create)
 		router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	}
 	routerUse := engine.Group("/use")
@@ -35,4 +36,6 @@ func RegisterRouter(engine *gin.Engine) {
 		routerUse.GET("/glog", use.Glog{}.Glog)
 		routerUse.GET("/logrus", use.Logrus{}.Logrus)
 	}
+	// 静态资源
+	engine.Static("/s", "./static")
 }

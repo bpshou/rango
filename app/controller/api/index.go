@@ -16,17 +16,13 @@ type Params struct {
 	Name string `form:"name" json:"name" xml:"name"`
 }
 
-// @BasePath /api/v1
-
-// PingExample godoc
-// @Summary ping example
-// @Schemes
-// @Description do ping
-// @Tags example
-// @Accept json
-// @Produce json
-// @Success 200 {string} Helloworld
-// @Router /api/ [get]
+// @Tags 		Api模块
+// @Summary 	首页index
+// @Description 首页index入口，默认返回为一个index字符串
+// @Accept 		json
+// @Produce 	json
+// @Success 	200 {string} index
+// @Router 		/api/ [get]
 func (the Index) Index(c *gin.Context) {
 	the.Success(c, 200, "index")
 }
@@ -38,6 +34,13 @@ func (the Index) Ping(c *gin.Context) {
 	})
 }
 
+// @Tags 		Api模块
+// @Summary   	测试请求参数
+// @Accept 		json
+// @Produce 	json
+// @Param     	data   body      Params			true  "name入参，测试入参"
+// @Success   	200    {map}  gin.H{code=string}		"响应的body体"
+// @Router    	/api/params/:id  [get]
 func (the Index) Params(c *gin.Context) {
 	// 获取json参数
 	var params Params

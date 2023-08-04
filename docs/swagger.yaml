@@ -1,11 +1,21 @@
+definitions:
+  api.Params:
+    properties:
+      name:
+        type: string
+    type: object
+host: localhost:2020
 info:
   contact: {}
+  description: rango服务端接口文档，注意模块名称
+  title: rango 服务接口 Swagger 文档
+  version: "1.0"
 paths:
   /api/:
     get:
       consumes:
       - application/json
-      description: do ping
+      description: 首页index入口，默认返回为一个index字符串
       produces:
       - application/json
       responses:
@@ -13,9 +23,30 @@ paths:
           description: OK
           schema:
             type: string
-      summary: ping example
+      summary: 首页index
       tags:
-      - example
+      - Api模块
+  /api/params/:id:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: name入参，测试入参
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/api.Params'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 响应的body体
+          schema:
+            type: map
+      summary: 测试请求参数
+      tags:
+      - Api模块
   /use/logrus:
     get:
       consumes:
@@ -30,5 +61,8 @@ paths:
             type: map
       summary: 日志处理
       tags:
-      - example
+      - Log模块
+securityDefinitions:
+  BasicAuth:
+    type: basic
 swagger: "2.0"

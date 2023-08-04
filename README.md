@@ -46,3 +46,8 @@ gin框架服务
 │  ├─redis
 │  └─viper
 └─vendor            # 三方类库
+
+#### api文档
+* 文档使用 swag 自动生成 swagger 文档，执行 `swag init` 即可将注释处理成文档
+* docker启动 swagger `docker run -d -p 8080:8080 --name swagger swaggerapi/swagger-ui`
+* 详细文档参见 https://github.com/swaggo/swag/blob/v1.16.1/README_zh-CN.md

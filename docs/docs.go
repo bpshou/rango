@@ -18,7 +18,7 @@ const docTemplate = `{
     "paths": {
         "/api/": {
             "get": {
-                "description": "do ping",
+                "description": "首页index入口，默认返回为一个index字符串",
                 "consumes": [
                     "application/json"
                 ],
@@ -26,14 +26,47 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "example"
+                    "Api模块"
                 ],
-                "summary": "ping example",
+                "summary": "首页index",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/params/:id": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Api模块"
+                ],
+                "summary": "测试请求参数",
+                "parameters": [
+                    {
+                        "description": "name入参，测试入参",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.Params"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "响应的body体",
+                        "schema": {
+                            "type": "map"
                         }
                     }
                 }
@@ -49,7 +82,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "example"
+                    "Log模块"
                 ],
                 "summary": "日志处理",
                 "responses": {
@@ -62,17 +95,32 @@ const docTemplate = `{
                 }
             }
         }
+    },
+    "definitions": {
+        "api.Params": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BasicAuth": {
+            "type": "basic"
+        }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
-	Host:             "",
+	Version:          "1.0",
+	Host:             "localhost:2020",
 	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "rango 服务接口 Swagger 文档",
+	Description:      "rango服务端接口文档，注意模块名称",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

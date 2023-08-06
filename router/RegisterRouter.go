@@ -3,6 +3,8 @@ package router
 import (
 	"rango/app/controller/api"
 	"rango/app/controller/use"
+	"rango/app/controller/user"
+	"rango/middleware"
 
 	docs "rango/docs"
 
@@ -12,7 +14,6 @@ import (
 )
 
 func RegisterRouter(engine *gin.Engine) {
-	docs.SwaggerInfo.BasePath = "/api"
 	router := engine.Group("/api")
 	{
 		router.GET("/", api.Index{}.Index)
@@ -28,14 +29,23 @@ func RegisterRouter(engine *gin.Engine) {
 		router.GET("/secret/add", api.Secret{}.Create)
 		router.GET("/secret/select", api.Secret{}.Decrypt)
 		router.GET("/qrcode/create", api.Qrcode{}.Create)
-		router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	}
-	routerUse := engine.Group("/use")
+	router = engine.Group("/user")
 	{
-		routerUse.GET("/mongo", use.Mongo{}.Mongo)
-		routerUse.GET("/glog", use.Glog{}.Glog)
-		routerUse.GET("/logrus", use.Logrus{}.Logrus)
+		router.GET("/login", user.User{}.Login)
+		router.POST("/reg", user.User{}.Register)
+		router.Use(middleware.JWTAuth()).PUT("/edit", user.User{}.Edit)
+		router.Use(middleware.JWTAuth()).DELETE("/delete", user.User{}.Delete)
 	}
+	router = engine.Group("/use")
+	{
+		router.GET("/mongo", use.Mongo{}.Mongo)
+		router.GET("/glog", use.Glog{}.Glog)
+		router.GET("/logrus", use.Logrus{}.Logrus)
+	}
+	// 文档
+	docs.SwaggerInfo.BasePath = "/api"
+	engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	// 静态资源
 	engine.Static("/s", "./static")
 }

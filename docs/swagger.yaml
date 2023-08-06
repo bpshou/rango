@@ -4,6 +4,18 @@ definitions:
       name:
         type: string
     type: object
+  user.UserParams:
+    properties:
+      code:
+        description: 验证码
+        type: integer
+      email:
+        description: 邮箱
+        type: string
+      phone:
+        description: 手机号
+        type: string
+    type: object
 host: localhost:2020
 info:
   contact: {}
@@ -62,6 +74,73 @@ paths:
       summary: 日志处理
       tags:
       - Log模块
+  /user/delete:
+    delete:
+      consumes:
+      - application/json
+      description: 首页index入口，默认返回为一个index字符串
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 删除用户
+      tags:
+      - User模块
+  /user/edit:
+    put:
+      consumes:
+      - application/json
+      description: 首页index入口，默认返回为一个index字符串
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 用户信息修改
+      tags:
+      - User模块
+  /user/login:
+    get:
+      consumes:
+      - application/json
+      description: 用户登录注册接口，如果以前没有注册过，则自动注册
+      parameters:
+      - description: name入参，测试入参
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/user.UserParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 用户登录/注册接口
+      tags:
+      - User模块
+  /user/register:
+    post:
+      consumes:
+      - application/json
+      description: 用户注册接口
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 用户注册接口
+      tags:
+      - User模块
 securityDefinitions:
   BasicAuth:
     type: basic

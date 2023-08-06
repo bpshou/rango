@@ -2,7 +2,10 @@ rango:
   host: http://127.0.0.1:2020
 
 jwt:
-  token: authorization_token_key
+  Issuer: origin
+  SigningKey: authorization_key
+  # ResetHour: 20
+  # ExpireHour: 24
 
 mysql:
   origin:

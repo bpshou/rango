@@ -32,10 +32,10 @@ func RegisterRouter(engine *gin.Engine) {
 	}
 	router = engine.Group("/user")
 	{
-		router.GET("/login", user.User{}.Login)
 		router.POST("/reg", user.User{}.Register)
-		router.Use(middleware.JWTAuth()).PUT("/edit", user.User{}.Edit)
-		router.Use(middleware.JWTAuth()).DELETE("/delete", user.User{}.Delete)
+		router.Use(middleware.JWTAuth()).Use(middleware.RBAC()).GET("/login", user.User{}.Login)
+		router.Use(middleware.JWTAuth()).Use(middleware.RBAC()).PUT("/edit", user.User{}.Edit)
+		router.Use(middleware.JWTAuth()).Use(middleware.RBAC()).DELETE("/delete", user.User{}.Delete)
 	}
 	router = engine.Group("/use")
 	{

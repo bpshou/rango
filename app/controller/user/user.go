@@ -1,6 +1,7 @@
 package user
 
 import (
+	"net/http"
 	"rango/app/controller"
 	"rango/app/service"
 
@@ -28,7 +29,17 @@ type (
 // @Success 	200 {string} index
 // @Router 		/user/login [get]
 func (the User) Login(c *gin.Context) {
-	token, err := service.ServiceGroupApp.UserService.Login()
+	// 获取json参数
+	var params UserParams
+	if err := c.ShouldBindJSON(&params); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code":    400,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	token, err := service.ServiceGroupApp.UserService.Login(params.Phone)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"msg": "token 获取失败",
@@ -49,14 +60,26 @@ func (the User) Login(c *gin.Context) {
 // @Success 	200 {string} index
 // @Router 		/user/register [post]
 func (the User) Register(c *gin.Context) {
-	token, err := service.ServiceGroupApp.UserService.Register()
+	// 获取json参数
+	var params UserParams
+	if err := c.ShouldBindJSON(&params); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code":    400,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	token, err := service.ServiceGroupApp.UserService.Register(params.Phone)
 	if err != nil {
-		c.JSON(400, gin.H{
-			"msg": "token 获取失败",
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": 400,
+			"msg":  "token 获取失败",
 		})
 		return
 	}
 	c.JSON(200, gin.H{
+		"code":  200,
 		"token": token,
 	})
 }

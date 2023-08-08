@@ -5,6 +5,7 @@ import (
 	"rango/app/controller/use"
 	"rango/app/controller/user"
 	"rango/middleware"
+	"rango/tools"
 
 	docs "rango/docs"
 
@@ -42,6 +43,23 @@ func RegisterRouter(engine *gin.Engine) {
 		router.GET("/mongo", use.Mongo{}.Mongo)
 		router.GET("/glog", use.Glog{}.Glog)
 		router.GET("/logrus", use.Logrus{}.Logrus)
+	}
+	router = engine.Group("/route")
+	{
+		router.GET("/add", func(c *gin.Context) {
+			for _, v := range engine.Routes() {
+				enforcer, err := tools.GetEnforcer()
+				if err != nil {
+					return
+				}
+
+				// 自动补全
+				hasPolicy := enforcer.HasPolicy("super", v.Path, v.Method)
+				if !hasPolicy {
+					enforcer.AddGroupingPolicy("super", v.Path, v.Method)
+				}
+			}
+		})
 	}
 	// 文档
 	docs.SwaggerInfo.BasePath = "/api"

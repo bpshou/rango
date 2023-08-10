@@ -2,10 +2,10 @@ package router
 
 import (
 	"rango/app/controller/api"
+	"rango/app/controller/auth"
 	"rango/app/controller/use"
 	"rango/app/controller/user"
 	"rango/middleware"
-	"rango/tools"
 
 	docs "rango/docs"
 
@@ -44,22 +44,11 @@ func RegisterRouter(engine *gin.Engine) {
 		router.GET("/glog", use.Glog{}.Glog)
 		router.GET("/logrus", use.Logrus{}.Logrus)
 	}
+
+	// 注册所有路由
 	router = engine.Group("/route")
 	{
-		router.GET("/add", func(c *gin.Context) {
-			for _, v := range engine.Routes() {
-				enforcer, err := tools.GetEnforcer()
-				if err != nil {
-					return
-				}
-
-				// 自动补全
-				hasPolicy := enforcer.HasPolicy("super", v.Path, v.Method)
-				if !hasPolicy {
-					enforcer.AddGroupingPolicy("super", v.Path, v.Method)
-				}
-			}
-		})
+		router.GET("/add", auth.Auth{}.AddGroupRoute(engine.Routes()))
 	}
 	// 文档
 	docs.SwaggerInfo.BasePath = "/api"

@@ -1,6 +1,8 @@
 package tools
 
 import (
+	"rango/tools/helper"
+
 	"github.com/casbin/casbin/v2"
 	xormadapter "github.com/casbin/xorm-adapter/v2"
 	"github.com/sirupsen/logrus"
@@ -8,7 +10,7 @@ import (
 
 // 获取实例
 func GetEnforcer() (enforcer *casbin.Enforcer, err error) {
-	adapter, err := xormadapter.NewAdapter("mysql", "root:123456@tcp(6.tcp.ngrok.io:14527)/casbin", true)
+	adapter, err := xormadapter.NewAdapter("mysql", helper.GetMysqlXormDSN("casbin"), true)
 	if err != nil {
 		logrus.Fatalf("casbin error, detail: %s", err)
 		return

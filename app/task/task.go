@@ -6,7 +6,7 @@ func Start() {
 	// 精确到秒
 	c := cron.New(cron.WithSeconds())
 
-	c.AddFunc("*/1 30 * * * ?", ApiLogTask) // 每30分的时候，每秒执行一次
+	c.AddFunc("*/1 30 1 * * ?", ApiLogTask) // 每30分的时候，每秒执行一次
 	c.AddFunc("00 30 22 * * ?", KafkaTask)  // 每天22:30执行一次
 
 	// 启动

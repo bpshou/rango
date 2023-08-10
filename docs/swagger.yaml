@@ -59,21 +59,21 @@ paths:
       summary: 测试请求参数
       tags:
       - Api模块
-  /use/logrus:
+  /route/add:
     get:
       consumes:
       - application/json
-      description: 日志处理，详细使用方式
+      description: 调用后，自动将路由全部注册到表中，添加的super组，拥有所有权限
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: map
-      summary: 日志处理
+            type: string
+      summary: 注册所有路由接口
       tags:
-      - Log模块
+      - Auth模块
   /user/delete:
     delete:
       consumes:
@@ -110,7 +110,7 @@ paths:
       - application/json
       description: 用户登录注册接口，如果以前没有注册过，则自动注册
       parameters:
-      - description: name入参，测试入参
+      - description: 请求入参
         in: body
         name: data
         required: true
@@ -131,6 +131,13 @@ paths:
       consumes:
       - application/json
       description: 用户注册接口
+      parameters:
+      - description: 请求入参
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/user.UserParams'
       produces:
       - application/json
       responses:

@@ -64,9 +64,9 @@
                 }
             }
         },
-        "/use/logrus": {
+        "/route/add": {
             "get": {
-                "description": "日志处理，详细使用方式",
+                "description": "调用后，自动将路由全部注册到表中，添加的super组，拥有所有权限",
                 "consumes": [
                     "application/json"
                 ],
@@ -74,14 +74,14 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Log模块"
+                    "Auth模块"
                 ],
-                "summary": "日志处理",
+                "summary": "注册所有路由接口",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "map"
+                            "type": "string"
                         }
                     }
                 }
@@ -148,7 +148,7 @@
                 "summary": "用户登录/注册接口",
                 "parameters": [
                     {
-                        "description": "name入参，测试入参",
+                        "description": "请求入参",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -180,6 +180,17 @@
                     "User模块"
                 ],
                 "summary": "用户注册接口",
+                "parameters": [
+                    {
+                        "description": "请求入参",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.UserParams"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",

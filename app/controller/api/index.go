@@ -27,13 +27,6 @@ func (the Index) Index(c *gin.Context) {
 	the.Success(c, 200, "index")
 }
 
-func (the Index) Ping(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "pong",
-	})
-}
-
 // @Tags 		Api模块
 // @Summary   	测试请求参数
 // @Accept 		json

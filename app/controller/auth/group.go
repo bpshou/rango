@@ -16,7 +16,6 @@ type Auth struct {
 // @Description 调用后，自动将路由全部注册到表中，添加的super组，拥有所有权限
 // @Accept 		json
 // @Produce 	json
-// @Param     	data  body  gin.RoutesInfo  true  "请求入参"
 // @Success 	200 {string} index
 // @Router 		/route/add [get]
 func (the Auth) AddGroupRoute(routes gin.RoutesInfo) func(c *gin.Context) {

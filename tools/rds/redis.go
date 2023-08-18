@@ -1,11 +1,11 @@
-package rdb
+package rds
 
 import (
-	"github.com/go-redis/redis"
+	"github.com/go-redis/redis/v8"
 	"github.com/spf13/viper"
 )
 
-func Instance() (redisClient *redis.Client) {
+func GetRedis() (redisClient *redis.Client) {
 	// 实例化
 	return redis.NewClient(&redis.Options{
 		Addr:     viper.GetString("redis.host") + ":" + viper.GetString("redis.port"),

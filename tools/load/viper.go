@@ -30,6 +30,7 @@ func LoadViper(path string) {
 	// viper.SetConfigName("redis")
 	// viper.SetConfigName("kafka")
 	viper.SetConfigName("secret")
+	viper.SetConfigName("sdk")
 	viper.MergeInConfig()
 
 	log.Debug("init viper Success !")

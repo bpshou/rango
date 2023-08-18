@@ -1,15 +1,6 @@
-rango:
-  host: http://127.0.0.1:2020
-
-jwt:
-  Issuer: origin
-  SigningKey: authorization_key
-  # ResetHour: 20
-  # ExpireHour: 24
-
 mysql:
   origin:
-    host: 192.168.5.5
+    host: 127.0.0.1
     port: 3306
     user: root
     pass: 123456
@@ -20,7 +11,7 @@ mysql:
     xorm: "%s:%s@tcp(%s:%s)/%s?charset=%s"
 
 redis:
-  host: 192.168.5.5
+  host: 127.0.0.1
   port: 6379
   pass:
   db:
@@ -30,3 +21,9 @@ kafka:
   topic:
     task: task
     object: object
+
+jwt:
+  Issuer: origin
+  SigningKey: authorization_key
+  # ResetHour: 20
+  # ExpireHour: 24

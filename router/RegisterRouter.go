@@ -27,7 +27,8 @@ func RegisterRouter(engine *gin.Engine) {
 	router = engine.Group("/user")
 	{
 		router.POST("/reg", user.User{}.Register)
-		router.Use(middleware.JWTAuth()).Use(middleware.RBAC()).GET("/login", user.User{}.Login)
+		router.POST("/login", user.User{}.Login)
+		router.POST("/sms/send", user.User{}.SmsSend)
 		router.Use(middleware.JWTAuth()).Use(middleware.RBAC()).PUT("/edit", user.User{}.Edit)
 		router.Use(middleware.JWTAuth()).Use(middleware.RBAC()).DELETE("/delete", user.User{}.Delete)
 	}

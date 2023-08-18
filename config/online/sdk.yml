@@ -1,0 +1,6 @@
+# 阿里云短信
+AiliyunSms:
+  AccessId: GONGONGONGONGON
+  AccessSecret: GONGONGONGONGON
+  SignName: 阿里云
+  LoginCode: SMS_GONGONGON

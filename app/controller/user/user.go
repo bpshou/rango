@@ -1,8 +1,8 @@
 package user
 
 import (
-	"net/http"
 	"rango/app/controller"
+	"rango/app/response"
 	"rango/app/service"
 
 	"github.com/gin-gonic/gin"
@@ -14,9 +14,13 @@ type User struct {
 
 type (
 	UserParams struct {
+		Phone string `json:"phone"`           // 手机号
+		Email string `json:"email,omitempty"` // 邮箱
+		Code  string `json:"code"`            // 验证码
+	}
+
+	SmsParams struct {
 		Phone string `json:"phone"` // 手机号
-		Email string `json:"email"` // 邮箱
-		Code  int64  `json:"code"`  // 验证码
 	}
 )
 
@@ -26,29 +30,34 @@ type (
 // @Accept 		json
 // @Produce 	json
 // @Param     	data  body  UserParams  true  "请求入参"
-// @Success 	200 {string} index
-// @Router 		/user/login [get]
+// @Success 	200 {object} response.Response{msg=string, data=map[string]string}
+// @Router 		/user/login [post]
 func (the User) Login(c *gin.Context) {
 	// 获取json参数
 	var params UserParams
 	if err := c.ShouldBindJSON(&params); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"code":    400,
-			"message": err.Error(),
-		})
+		response.FailWithMessage("参数错误："+err.Error(), c)
+		return
+	}
+
+	if params.Phone == "" || params.Code == "" {
+		response.FailWithMessage("参数为空", c)
+		return
+	}
+
+	if !service.ServiceGroupApp.SmsService.CheckCode(params.Phone, params.Code) {
+		response.FailWithMessage("短信验证码错误", c)
 		return
 	}
 
 	token, err := service.ServiceGroupApp.UserService.Login(params.Phone)
 	if err != nil {
-		c.JSON(400, gin.H{
-			"msg": "token 获取失败",
-		})
+		response.FailWithMessage("登录失败", c)
 		return
 	}
-	c.JSON(200, gin.H{
+	response.OkWithDetailed(gin.H{
 		"token": token,
-	})
+	}, "登录成功", c)
 }
 
 // @Tags 		User模块
@@ -63,25 +72,23 @@ func (the User) Register(c *gin.Context) {
 	// 获取json参数
 	var params UserParams
 	if err := c.ShouldBindJSON(&params); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"code":    400,
-			"message": err.Error(),
-		})
+		response.FailWithMessage("参数错误："+err.Error(), c)
 		return
 	}
 
-	token, err := service.ServiceGroupApp.UserService.Register(params.Phone)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"code": 400,
-			"msg":  "token 获取失败",
-		})
+	if !service.ServiceGroupApp.SmsService.CheckCode(params.Phone, params.Code) {
+		response.FailWithMessage("短信验证码错误", c)
 		return
 	}
-	c.JSON(200, gin.H{
-		"code":  200,
+
+	token, err := service.ServiceGroupApp.UserService.Login(params.Phone)
+	if err != nil {
+		response.FailWithMessage("注册失败", c)
+		return
+	}
+	response.OkWithDetailed(gin.H{
 		"token": token,
-	})
+	}, "注册成功", c)
 }
 
 // @Tags 		User模块
@@ -92,9 +99,7 @@ func (the User) Register(c *gin.Context) {
 // @Success 	200 {string} index
 // @Router 		/user/edit [put]
 func (the User) Edit(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"data": "修改成功",
-	})
+	response.OkWithMessage("修改成功", c)
 }
 
 // @Tags 		User模块
@@ -105,7 +110,29 @@ func (the User) Edit(c *gin.Context) {
 // @Success 	200 {string} index
 // @Router 		/user/delete [delete]
 func (the User) Delete(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"data": "删除成功",
-	})
+	response.OkWithMessage("删除成功", c)
+}
+
+// @Tags 		User模块
+// @Summary 	短信发送
+// @Description 用户登录发送短信的接口
+// @Accept 		json
+// @Produce 	json
+// @Param     	data  body  SmsParams  true  "请求入参"
+// @Success 	200 {string} index
+// @Router 		/user/sms/send [get]
+func (the User) SmsSend(c *gin.Context) {
+	// 获取json参数
+	var params SmsParams
+	if err := c.ShouldBindJSON(&params); err != nil {
+		response.FailWithMessage("参数错误："+err.Error(), c)
+		return
+	}
+
+	_, err := service.ServiceGroupApp.SmsService.Send(params.Phone)
+	if err != nil {
+		response.FailWithMessage("短信发送失败", c)
+		return
+	}
+	response.OkWithMessage("短信发送成功", c)
 }

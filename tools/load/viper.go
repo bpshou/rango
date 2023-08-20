@@ -17,7 +17,6 @@ func LoadViper(path string) {
 
 	// 读取配置
 	viper.SetConfigName("config")
-
 	err := viper.ReadInConfig()
 	if err != nil {
 		log.WithFields(log.Fields{
@@ -27,11 +26,23 @@ func LoadViper(path string) {
 	}
 
 	// 读取redis配置
-	// viper.SetConfigName("redis")
-	// viper.SetConfigName("kafka")
-	viper.SetConfigName("secret")
+	viper.SetConfigName("env")
+	err = viper.MergeInConfig()
+	if err != nil {
+		log.Warn("Read config failed! err :", err)
+	}
+
 	viper.SetConfigName("sdk")
-	viper.MergeInConfig()
+	err = viper.MergeInConfig()
+	if err != nil {
+		log.Warn("Read config failed! err :", err)
+	}
+
+	viper.SetConfigName("secret")
+	err = viper.MergeInConfig()
+	if err != nil {
+		log.Warn("Read config failed! err :", err)
+	}
 
 	log.Debug("init viper Success !")
 }

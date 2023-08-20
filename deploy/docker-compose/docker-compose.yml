@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  rango:
+    build:
+      context: ../docker
+      dockerfile: ./Dockerfile
+    container_name: rango
+    restart: always
+    ports:
+      - '90:80'
+    volumes:
+      - ../nginx/:/etc/nginx/conf.d/

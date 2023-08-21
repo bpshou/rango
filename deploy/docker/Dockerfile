@@ -18,7 +18,8 @@ ENV GOPROXY=https://goproxy.cn
 
 COPY entrypoint.sh /entrypoint.sh
 
-RUN chmod +x /entrypoint.sh
+RUN chmod +x /entrypoint.sh && \
+    echo 'export PS1="\e[1m\e[31m[\h] \e[32m(rango) \e[34m\u@$(hostname -i)\e[35m \w\e[0m\n$ "' >> ~/.bashrc
 
 WORKDIR /app
 

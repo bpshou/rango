@@ -4,22 +4,22 @@ import (
 	"rango/models"
 )
 
-type UserModel struct {
+type DeUserModel struct {
 	*models.BaseModel
 }
 
-type User struct {
+type DeUser struct {
 	Id         int
 	Phone      string
-	CreateDate string
-	UpdateDate string
+	CreateTime string
+	UpdateTime string
 }
 
 // 实例化
-func UserTable() UserModel {
+func DeUserTable() DeUserModel {
 	baseModel := models.NewDatabase("origin")
-	baseModel.TableName = "user"
-	return UserModel{
+	baseModel.TableName = "de_user"
+	return DeUserModel{
 		&baseModel,
 	}
 }

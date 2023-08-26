@@ -18,7 +18,7 @@ func Insert() int64 {
 
 	logrus.Debug(data)
 
-	lastId, affected, err := origin.UserTable().Insert(data)
+	lastId, affected, err := origin.DeUserTable().Insert(data)
 
 	logrus.Debug(lastId, affected, err)
 	if err != nil {
@@ -34,7 +34,7 @@ func Select() (list []map[string]interface{}) {
 		"id": goqu.Op{"gt": 0},
 	}
 
-	list, err := origin.UserTable().GetList(data, 2, 2, map[string]string{})
+	list, err := origin.DeUserTable().GetList(data, 2, 2, map[string]string{})
 
 	logrus.Debug(list)
 
@@ -53,7 +53,7 @@ func Update() int64 {
 		"id": goqu.Op{"eq": 2},
 	}
 
-	affected, err := origin.UserTable().Update(data, where)
+	affected, err := origin.DeUserTable().Update(data, where)
 
 	logrus.Debug(affected, err)
 	if err != nil {
@@ -68,7 +68,7 @@ func Delete() int64 {
 		"id": goqu.Op{"eq": 3},
 	}
 
-	affected, err := origin.UserTable().Delete(where)
+	affected, err := origin.DeUserTable().Delete(where)
 
 	logrus.Debug(affected, err)
 	if err != nil {
@@ -84,7 +84,7 @@ func GetOne() (one map[string]interface{}) {
 		"id": goqu.Op{"eq": 1},
 	}
 
-	one, err := origin.UserTable().GetOne(data, map[string]string{})
+	one, err := origin.DeUserTable().GetOne(data, map[string]string{})
 
 	logrus.Debug(one)
 
@@ -102,7 +102,7 @@ func GetCount() (count int64) {
 		"id": goqu.Op{"gte": 1},
 	}
 
-	count, err := origin.UserTable().GetCount(data)
+	count, err := origin.DeUserTable().GetCount(data)
 
 	logrus.Debug(count)
 

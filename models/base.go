@@ -42,10 +42,12 @@ func (m *BaseModel) Insert(data ...interface{}) (lastId int64, rowsAffected int6
 	logrus.Debug(sql)
 	result, err := m.Exec(sql)
 	if err != nil {
+		logrus.Error("Insert Exec err", err.Error())
 		return
 	}
 	lastId, err = result.LastInsertId()
 	if err != nil {
+		logrus.Error("Insert LastInsertId err", err.Error())
 		return
 	}
 	rowsAffected, err = result.RowsAffected()
@@ -67,6 +69,7 @@ func (m *BaseModel) Update(values interface{}, where goqu.Expression) (rowsAffec
 	logrus.Debug(sql)
 	result, err := m.Exec(sql)
 	if err != nil {
+		logrus.Error("Update Exec err", err.Error())
 		return
 	}
 	rowsAffected, err = result.RowsAffected()
@@ -88,6 +91,7 @@ func (m *BaseModel) Delete(where goqu.Expression) (rowsAffected int64, err error
 	logrus.Debug(sql)
 	result, err := m.Exec(sql)
 	if err != nil {
+		logrus.Error("Delete Exec err", err.Error())
 		return
 	}
 	rowsAffected, err = result.RowsAffected()

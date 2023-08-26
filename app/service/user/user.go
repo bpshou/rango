@@ -13,7 +13,7 @@ type UserService struct{}
 
 // 登录
 func (the *UserService) Login(phone string) (string, error) {
-	data, err := origin.UserTable().GetOne(goqu.Ex{"phone": phone}, map[string]string{})
+	data, err := origin.DeUserTable().GetOne(goqu.Ex{"phone": phone}, map[string]string{})
 	if err != nil {
 		return "", err
 	}
@@ -41,7 +41,7 @@ func (the *UserService) Login(phone string) (string, error) {
 
 // 注册
 func (the *UserService) Register(phone string) (string, error) {
-	uid, rowsAffected, err := origin.UserTable().Insert(map[string]interface{}{
+	uid, rowsAffected, err := origin.DeUserTable().Insert(map[string]interface{}{
 		"phone": phone,
 	})
 	if err != nil {

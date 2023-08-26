@@ -1,6 +1,7 @@
 package router
 
 import (
+	"rango/app/controller/account"
 	"rango/app/controller/api"
 	"rango/app/controller/auth"
 	"rango/app/controller/user"
@@ -31,6 +32,11 @@ func RegisterRouter(engine *gin.Engine) {
 		router.POST("/sms/send", user.User{}.SmsSend)
 		router.Use(middleware.JWTAuth()).Use(middleware.RBAC()).PUT("/edit", user.User{}.Edit)
 		router.Use(middleware.JWTAuth()).Use(middleware.RBAC()).DELETE("/delete", user.User{}.Delete)
+	}
+	router = engine.Group("/account")
+	{
+		router.Use(middleware.JWTAuth()).POST("/put", account.Account{}.PutAccount)
+		router.Use(middleware.JWTAuth()).POST("/enter", account.Account{}.PutEndpoint)
 	}
 
 	// 注册所有路由

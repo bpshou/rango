@@ -1,8 +1,11 @@
 package account
 
 import (
+	"fmt"
 	"rango/app/controller"
 	"rango/app/response"
+	"rango/app/service"
+	"rango/common/claims"
 
 	"github.com/gin-gonic/gin"
 )
@@ -25,9 +28,21 @@ type (
 // @Accept 		json
 // @Produce 	json
 // @Success 	200 {string} index
-// @Router 		/user/edit [put]
+// @Router 		/user/edit [post]
 func (the Account) PutAccount(c *gin.Context) {
-	response.OkWithMessage("下发成功", c)
+	// 用户ID
+	userId := claims.GetUserId(c)
+
+	fmt.Println(userId)
+
+	token, err := service.ServiceGroupApp.AccountService.PutAccount(userId)
+	if err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	response.OkWithDetailed(map[string]any{
+		"token": token,
+	}, "下发成功", c)
 }
 
 // @Tags 		Account模块
@@ -36,7 +51,9 @@ func (the Account) PutAccount(c *gin.Context) {
 // @Accept 		json
 // @Produce 	json
 // @Success 	200 {string} index
-// @Router 		/user/edit [put]
+// @Router 		/user/edit [post]
 func (the Account) PutEndpoint(c *gin.Context) {
-	response.OkWithMessage("入口成功", c)
+	response.OkWithDetailed(map[string]any{
+		"url": "http://www.baidu.com",
+	}, "下发成功", c)
 }

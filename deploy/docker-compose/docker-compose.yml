@@ -11,3 +11,4 @@ services:
       - '90:80'
     volumes:
       - ../nginx/:/etc/nginx/conf.d/
+      - ../../../aigc:/usr/share/nginx/html/aigc

@@ -2,9 +2,10 @@ package models
 
 import (
 	"database/sql"
-	"strings"
 
+	"github.com/gookit/goutil/maputil"
 	"github.com/spf13/cast"
+	"gorm.io/gorm"
 
 	"github.com/doug-martin/goqu/v9"
 	"github.com/sirupsen/logrus"
@@ -13,6 +14,7 @@ import (
 
 type BaseModel struct {
 	Db        *xorm.EngineGroup
+	GormDb    *gorm.DB
 	TableName string
 	ShowSql   bool
 }
@@ -21,9 +23,12 @@ type BaseModel struct {
 func NewDatabase(database string) BaseModel {
 	// 使用数据库模型实例
 	db := GetDatabaseXorm(database)
+	// gorm 实例
+	gormdb := GetDatabaseGorm(database)
 	// 实例化结构体
 	return BaseModel{
-		Db: db,
+		Db:     db,
+		GormDb: gormdb,
 	}
 }
 
@@ -32,14 +37,11 @@ func NewDatabase(database string) BaseModel {
  *
  */
 func (m *BaseModel) Insert(data ...interface{}) (lastId int64, rowsAffected int64, err error) {
-	sql, _, err := goqu.Insert(m.TableName).Rows(data...).ToSQL()
+	sql, _, err := NewSqlGen().InsertSql(m.TableName, data...)
 	if err != nil {
-		logrus.Error("sql err", err.Error())
 		return
 	}
 
-	sql = strings.ReplaceAll(sql, "\"", "")
-	logrus.Debug(sql)
 	result, err := m.Exec(sql)
 	if err != nil {
 		logrus.Error("Insert Exec err", err.Error())
@@ -59,14 +61,11 @@ func (m *BaseModel) Insert(data ...interface{}) (lastId int64, rowsAffected int6
  *
  */
 func (m *BaseModel) Update(values interface{}, where goqu.Expression) (rowsAffected int64, err error) {
-	sql, _, err := goqu.Update(m.TableName).Set(values).Where(where).ToSQL()
+	sql, _, err := NewSqlGen().UpdateSql(m.TableName, values, where)
 	if err != nil {
-		logrus.Error("sql err", err.Error())
 		return
 	}
 
-	sql = strings.ReplaceAll(sql, "\"", "")
-	logrus.Debug(sql)
 	result, err := m.Exec(sql)
 	if err != nil {
 		logrus.Error("Update Exec err", err.Error())
@@ -81,14 +80,11 @@ func (m *BaseModel) Update(values interface{}, where goqu.Expression) (rowsAffec
  *
  */
 func (m *BaseModel) Delete(where goqu.Expression) (rowsAffected int64, err error) {
-	sql, _, err := goqu.Delete(m.TableName).Where(where).ToSQL()
+	sql, _, err := NewSqlGen().DeleteSql(m.TableName, where)
 	if err != nil {
-		logrus.Error("sql err", err.Error())
 		return
 	}
 
-	sql = strings.ReplaceAll(sql, "\"", "")
-	logrus.Debug(sql)
 	result, err := m.Exec(sql)
 	if err != nil {
 		logrus.Error("Delete Exec err", err.Error())
@@ -103,32 +99,12 @@ func (m *BaseModel) Delete(where goqu.Expression) (rowsAffected int64, err error
  *
  */
 func (m *BaseModel) GetList(where goqu.Expression, page int, size int, order map[string]string) (data []map[string]interface{}, err error) {
-	model := goqu.Select("*").From(m.TableName).Where(where)
-	if page > 0 {
-		model = model.Offset(uint((page - 1) * size))
-	}
-	if size > 0 {
-		model = model.Limit(uint(size))
-	}
-	if len(order) > 0 {
-		for field, sc := range order {
-			if sc == "desc" {
-				model = model.Order(goqu.C(field).Desc())
-			} else {
-				model = model.Order(goqu.C(field).Asc())
-			}
-		}
-	}
-
-	sql, _, err := model.ToSQL()
+	sql, _, err := NewSqlGen().GetListSql(m.TableName, where, cast.ToUint(page), cast.ToUint(size), order)
 	if err != nil {
-		logrus.Error("sql err", err.Error())
 		return
 	}
 
-	sql = strings.ReplaceAll(sql, "\"", "")
-	logrus.Debug(sql)
-	return m.Query(sql)
+	return m.GormQueryList(sql)
 }
 
 /**
@@ -136,38 +112,12 @@ func (m *BaseModel) GetList(where goqu.Expression, page int, size int, order map
  *
  */
 func (m *BaseModel) GetOne(where goqu.Expression, order map[string]string) (data map[string]interface{}, err error) {
-	model := goqu.Select("*").From(m.TableName).Where(where).Limit(1)
-	if len(order) > 0 {
-		for field, sc := range order {
-			if sc == "desc" {
-				model = model.Order(goqu.C(field).Desc())
-			} else {
-				model = model.Order(goqu.C(field).Asc())
-			}
-		}
-	}
-
-	sql, _, err := model.ToSQL()
+	sql, _, err := NewSqlGen().GetOneSql(m.TableName, where, order)
 	if err != nil {
-		logrus.Error("sql err", err.Error())
 		return
 	}
 
-	sql = strings.ReplaceAll(sql, "\"", "")
-	logrus.Debug(sql)
-
-	queryList, err := m.Query(sql)
-	if err != nil {
-		logrus.Error("Query err", err.Error())
-		return
-	}
-
-	if len(queryList) <= 0 {
-		return
-	}
-
-	data = queryList[0]
-	return
+	return m.GormQuery(sql)
 }
 
 /**
@@ -175,28 +125,18 @@ func (m *BaseModel) GetOne(where goqu.Expression, order map[string]string) (data
  *
  */
 func (m *BaseModel) GetCount(where goqu.Expression) (count int64, err error) {
-	model := goqu.Select(goqu.COUNT("*").As("count")).From(m.TableName).Where(where)
-
-	sql, _, err := model.ToSQL()
+	sql, _, err := NewSqlGen().GetCountSql(m.TableName, where)
 	if err != nil {
-		logrus.Error("sql err", err.Error())
 		return
 	}
 
-	sql = strings.ReplaceAll(sql, "\"", "")
-	logrus.Debug(sql)
-
-	queryList, err := m.Query(sql)
+	query, err := m.GormQuery(sql)
 	if err != nil {
 		logrus.Error("Query err", err.Error())
 		return
 	}
 
-	if len(queryList) <= 0 {
-		return
-	}
-
-	count = cast.ToInt64(queryList[0]["count"])
+	count = cast.ToInt64(maputil.DeepGet(query, "count"))
 	return
 }
 
@@ -217,6 +157,24 @@ func (m *BaseModel) Query(sqlOrArgs ...interface{}) ([]map[string]interface{}, e
 func (m *BaseModel) Exec(sqlOrArgs ...interface{}) (sql.Result, error) {
 	m.Db.ShowSQL(m.ShowSql)
 	return m.Db.Engine.Exec(sqlOrArgs...)
+}
+
+/**
+ * Gorm执行SQL查询 (map)
+ *
+ */
+func (m *BaseModel) GormQuery(sql string, arg ...interface{}) (data map[string]interface{}, err error) {
+	m.GormDb.Raw(sql, arg...).Scan(&data)
+	return data, nil
+}
+
+/**
+ * Gorm执行SQL查询 (列表)
+ *
+ */
+func (m *BaseModel) GormQueryList(sql string, arg ...interface{}) (data []map[string]interface{}, err error) {
+	m.GormDb.Raw(sql, arg...).Scan(&data)
+	return data, nil
 }
 
 // ============================== 兼容封装 ==============================

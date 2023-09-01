@@ -34,7 +34,7 @@ func Select() (list []map[string]interface{}) {
 		"id": goqu.Op{"gt": 0},
 	}
 
-	list, err := origin.DeUserTable().GetList(data, 2, 2, map[string]string{})
+	list, err := origin.DeUserTable().GetList(data, 1, 2, map[string]string{})
 
 	logrus.Debug(list)
 

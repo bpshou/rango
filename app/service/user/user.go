@@ -17,8 +17,7 @@ func (the *UserService) Login(phone string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	ids := cast.ToIntSlice(data["id"])
-	uid := cast.ToInt64(ids[0])
+	uid := cast.ToInt64(data["id"])
 	if uid <= 0 {
 		return the.Register(phone)
 	}

@@ -3,7 +3,7 @@ package api
 import (
 	"encoding/base64"
 	"rango/app/controller"
-	"rango/app/service"
+	"rango/tools"
 
 	"github.com/gin-gonic/gin"
 )
@@ -43,7 +43,7 @@ func (the Secret) Create(c *gin.Context) {
 		secret = "123456"
 	}
 
-	outputByte, err := service.Encrypt(input, secret)
+	outputByte, err := tools.Encrypt(input, secret)
 	if err != nil {
 		c.JSON(200, gin.H{
 			"code":    4004,
@@ -91,7 +91,7 @@ func (the Secret) Decrypt(c *gin.Context) {
 		secret = "123456"
 	}
 
-	outputByte, err := service.Decrypt(input, secret)
+	outputByte, err := tools.Decrypt(input, secret)
 	if err != nil {
 		c.JSON(200, gin.H{
 			"code":    4004,

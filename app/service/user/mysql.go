@@ -1,4 +1,4 @@
-package service
+package user
 
 import (
 	"rango/models/origin"
@@ -7,7 +7,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func Insert() int64 {
+func (the *UserService) Insert() int64 {
 	var data []map[string]interface{}
 
 	data = append(data, map[string]interface{}{
@@ -28,7 +28,7 @@ func Insert() int64 {
 	return lastId
 }
 
-func Select() (list []map[string]interface{}) {
+func (the *UserService) Select() (list []map[string]interface{}) {
 
 	data := goqu.Ex{
 		"id": goqu.Op{"gt": 0},
@@ -45,7 +45,7 @@ func Select() (list []map[string]interface{}) {
 	return
 }
 
-func Update() int64 {
+func (the *UserService) Update() int64 {
 	data := goqu.Record{
 		"phone": "13188883333",
 	}
@@ -63,7 +63,7 @@ func Update() int64 {
 	return affected
 }
 
-func Delete() int64 {
+func (the *UserService) Delete() int64 {
 	where := goqu.Ex{
 		"id": goqu.Op{"eq": 3},
 	}
@@ -78,7 +78,7 @@ func Delete() int64 {
 	return affected
 }
 
-func GetOne() (one map[string]interface{}) {
+func (the *UserService) GetOne() (one map[string]interface{}) {
 
 	data := goqu.Ex{
 		"id": goqu.Op{"eq": 1},
@@ -96,7 +96,7 @@ func GetOne() (one map[string]interface{}) {
 	return
 }
 
-func GetCount() (count int64) {
+func (the *UserService) GetCount() (count int64) {
 
 	data := goqu.Ex{
 		"id": goqu.Op{"gte": 1},

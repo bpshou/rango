@@ -35,7 +35,7 @@ func (the Account) PutAccount(c *gin.Context) {
 
 	fmt.Println(userId)
 
-	token, err := service.ServiceGroupApp.AccountService.PutAccount(userId)
+	token, err := service.Group.AccountService.PutAccount(userId)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return

@@ -45,12 +45,12 @@ func (the User) Login(c *gin.Context) {
 		return
 	}
 
-	if !service.ServiceGroupApp.SmsService.CheckCode(params.Phone, params.Code) {
+	if !service.Group.SmsService.CheckCode(params.Phone, params.Code) {
 		response.FailWithMessage("短信验证码错误", c)
 		return
 	}
 
-	token, err := service.ServiceGroupApp.UserService.Login(params.Phone)
+	token, err := service.Group.UserService.Login(params.Phone)
 	if err != nil {
 		response.FailWithMessage("登录失败", c)
 		return
@@ -76,12 +76,12 @@ func (the User) Register(c *gin.Context) {
 		return
 	}
 
-	if !service.ServiceGroupApp.SmsService.CheckCode(params.Phone, params.Code) {
+	if !service.Group.SmsService.CheckCode(params.Phone, params.Code) {
 		response.FailWithMessage("短信验证码错误", c)
 		return
 	}
 
-	token, err := service.ServiceGroupApp.UserService.Login(params.Phone)
+	token, err := service.Group.UserService.Login(params.Phone)
 	if err != nil {
 		response.FailWithMessage("注册失败", c)
 		return
@@ -129,7 +129,7 @@ func (the User) SmsSend(c *gin.Context) {
 		return
 	}
 
-	_, err := service.ServiceGroupApp.SmsService.Send(params.Phone)
+	_, err := service.Group.SmsService.Send(params.Phone)
 	if err != nil {
 		response.FailWithMessage("短信发送失败", c)
 		return

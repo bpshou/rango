@@ -61,12 +61,12 @@ func (the Index) Params(c *gin.Context) {
 
 func (the Index) Mysql(c *gin.Context) {
 
-	userInsert := service.Insert()
-	userSelect := service.Select()
-	userUpdate := service.Update()
-	userDelete := service.Delete()
-	userGetOne := service.GetOne()
-	userGetCount := service.GetCount()
+	userInsert := service.Group.UserService.Insert()
+	userSelect := service.Group.UserService.Select()
+	userUpdate := service.Group.UserService.Update()
+	userDelete := service.Group.UserService.Delete()
+	userGetOne := service.Group.UserService.GetOne()
+	userGetCount := service.Group.UserService.GetCount()
 
 	c.JSON(200, gin.H{
 		"code":         200,

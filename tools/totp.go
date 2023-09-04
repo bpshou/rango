@@ -1,9 +1,10 @@
-package service
+package tools
 
 import (
+	"time"
+
 	"github.com/pquerna/otp"
 	"github.com/pquerna/otp/totp"
-	"time"
 )
 
 func CreateTotpCode(secret string, period uint) (string, error) {

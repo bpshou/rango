@@ -2,7 +2,7 @@ package api
 
 import (
 	"rango/app/controller"
-	"rango/app/service"
+	"rango/tools"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,7 +15,7 @@ func (the Qrcode) Create(c *gin.Context) {
 	// 内容
 	content := c.Query("content")
 
-	qr, err := service.CreateQrcode(content)
+	qr, err := tools.CreateQrcode(content)
 	if err != nil {
 		c.String(400, "失败")
 		return

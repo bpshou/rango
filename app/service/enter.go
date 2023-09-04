@@ -12,4 +12,4 @@ type ServiceGroup struct {
 	AccountService account.AccountService
 }
 
-var ServiceGroupApp = new(ServiceGroup)
+var Group = new(ServiceGroup)

@@ -3,7 +3,7 @@ package api
 import (
 	"encoding/base64"
 	"rango/app/controller"
-	"rango/app/service"
+	"rango/tools"
 
 	"github.com/spf13/viper"
 
@@ -37,15 +37,15 @@ func (the Totp) Secret(c *gin.Context) {
 	}
 
 	// aes
-	googleByte, _ := service.Decrypt(viper.GetString("google.secret"), secret)
+	googleByte, _ := tools.Decrypt(viper.GetString("google.secret"), secret)
 	// aes
-	vpnByte, _ := service.Decrypt(viper.GetString("vpn.secret"), secret)
+	vpnByte, _ := tools.Decrypt(viper.GetString("vpn.secret"), secret)
 	// aes
-	armByte, _ := service.Decrypt(viper.GetString("arm.secret"), secret)
+	armByte, _ := tools.Decrypt(viper.GetString("arm.secret"), secret)
 
-	google, _ := service.CreateTotpCode(string(googleByte), 30)
-	vpn, _ := service.CreateTotpCode(string(vpnByte), 60)
-	arm, _ := service.CreateTotpCode(string(armByte), 30)
+	google, _ := tools.CreateTotpCode(string(googleByte), 30)
+	vpn, _ := tools.CreateTotpCode(string(vpnByte), 60)
+	arm, _ := tools.CreateTotpCode(string(armByte), 30)
 
 	// 输出
 	c.String(200, "谷歌认证 OTP is: %s", google)

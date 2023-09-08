@@ -3,7 +3,7 @@ version: "3"
 services:
   rango:
     build:
-      context: ../../
+      context: ../docker
       dockerfile: ./Dockerfile
     container_name: rango
     restart: always

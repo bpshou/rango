@@ -1,11 +1,12 @@
 version: "3"
 
 services:
-  rango:
+  rango-prod:
     build:
       context: ../../
       dockerfile: ./Dockerfile
-    container_name: rango
+    image: rango-prod
+    container_name: rango-prod
     restart: always
     ports:
       - '90:80'

@@ -5,10 +5,12 @@ services:
     build:
       context: ../docker
       dockerfile: ./Dockerfile
+    image: rango
     container_name: rango
     restart: always
     ports:
       - '90:80'
     volumes:
       - ../nginx/:/etc/nginx/conf.d/
-      - ../../../aigc:/usr/share/nginx/html/aigc
+      - ../../../../aigc:/usr/share/nginx/html/aigc
+      - ../../../../rango/:/app/rango

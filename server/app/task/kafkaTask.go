@@ -9,7 +9,12 @@ import (
 	"github.com/spf13/viper"
 )
 
-func KafkaTask() {
+type (
+	KafkaTask struct{}
+)
+
+// 卡夫卡任务
+func (j *KafkaTask) Run() {
 	var wg sync.WaitGroup
 	consumer := kafka.Consumer()
 
